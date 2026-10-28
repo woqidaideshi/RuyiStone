@@ -1,0 +1,4 @@
+# 冒烟测试公共元数据（P0，tier 0，tag: smoke，子用例自动继承）
+tag:
+  - smoke
+tier: 0

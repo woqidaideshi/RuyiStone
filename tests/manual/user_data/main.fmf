@@ -1,0 +1,2 @@
+summary: user-data 注入（手动）
+test: ./manual.md

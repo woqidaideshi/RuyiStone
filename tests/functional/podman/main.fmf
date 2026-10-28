@@ -1,0 +1,5 @@
+summary: podman 容器导入与运行
+test: ./test.sh
+require:
+  - podman
+duration: 15m

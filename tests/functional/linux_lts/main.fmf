@@ -1,0 +1,6 @@
+summary: linux-lts 内核启动项检查
+test: ./test.sh
+require:
+  - linux-lts
+  - kernel-install
+duration: 15m

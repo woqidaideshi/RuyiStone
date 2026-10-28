@@ -1,0 +1,2 @@
+summary: GPU 加速验证（手动）
+test: ./manual.md

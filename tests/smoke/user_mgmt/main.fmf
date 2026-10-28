@@ -1,0 +1,2 @@
+summary: 用户管理（新增用户并加入 wheel）
+test: ./test.sh

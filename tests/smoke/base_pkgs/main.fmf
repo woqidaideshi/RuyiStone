@@ -1,0 +1,6 @@
+summary: 基础软件安装验证（整体安装 + 告警/报错检查）
+test: ./test.sh
+tag:
+  - smoke
+  - pkg
+duration: 20m

@@ -1,0 +1,15 @@
+summary: openRuyi 冒烟测试（P0，tier 0）
+environment-file:
+  - topology.env
+
+discover:
+  how: fmf
+  filter: "tag:smoke"
+
+prepare:
+  - how: install
+    package:
+      - beakerlib
+
+execute:
+  how: tmt

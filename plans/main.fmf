@@ -1,0 +1,8 @@
+# 所有 plan 的公共设置（本节点不含 execute，仅作为继承节点，不会被识别为 plan）
+provision:
+  how: local
+
+report:
+  - how: display
+  - how: junit
+    file: junit.xml

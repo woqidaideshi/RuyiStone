@@ -1,0 +1,16 @@
+summary: openRuyi 功能测试（P1/P2，tier 1）
+environment-file:
+  - topology.env
+
+discover:
+  how: fmf
+  filter: "tag:feature"
+
+prepare:
+  - how: install
+    package:
+      - beakerlib
+      - git
+
+execute:
+  how: tmt
