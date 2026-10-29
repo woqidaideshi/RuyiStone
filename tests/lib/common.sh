@@ -47,10 +47,24 @@ assertDnfInstall() {
     local log="$log_dir/dnf-install.log"
     local pkgs=("$@")
     local rc=0
+    local attempt
 
     rlPhaseStartTest "install packages"
-        rlRun "dnf install -y ${pkgs[*]} >'$log' 2>&1" 0 "dnf install ${pkgs[*]}"
-        rc=$?
+        for attempt in 1 2; do
+            if [ "$attempt" -eq 2 ]; then
+                rlLogWarning "dnf install failed on first attempt, refreshing cache and retrying once"
+                dnf clean all
+                dnf makecache
+            fi
+            dnf install -y ${pkgs[*]} >"$log" 2>&1
+            rc=$?
+            [ "$rc" -eq 0 ] && break
+        done
+        if [ "$rc" -eq 0 ]; then
+            rlPass "dnf install ${pkgs[*]}"
+        else
+            rlFail "dnf install ${pkgs[*]}"
+        fi
     rlPhaseEnd
 
     if [ "$rc" -ne 0 ]; then

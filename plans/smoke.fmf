@@ -7,6 +7,8 @@ discover:
   filter: "tag:smoke"
 
 prepare:
+  - how: shell
+    script: dnf clean all && dnf makecache
   - how: install
     package:
       - beakerlib
