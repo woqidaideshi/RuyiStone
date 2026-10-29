@@ -1,4 +1,4 @@
-summary: gcc/g++/clang 编译运行 ruapu
+summary: build and run ruapu with gcc/g++/clang
 test: ./test.sh
 tag:
   - requires-network
@@ -11,4 +11,4 @@ duration: 15m
 adjust:
   - duration+: 10m
     when: arch == riscv64
-    because: RISC-V 上编译较慢
+    because: compilation is slower on RISC-V

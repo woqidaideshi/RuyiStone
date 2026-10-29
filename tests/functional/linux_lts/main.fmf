@@ -1,4 +1,4 @@
-summary: linux-lts 内核启动项检查
+summary: linux-lts kernel boot entry check
 test: ./test.sh
 require:
   - linux-lts

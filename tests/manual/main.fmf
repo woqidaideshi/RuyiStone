@@ -1,4 +1,4 @@
-# 手动测试（不可全自动执行，仅登记步骤与预期结果）
+# Manual tests (cannot run fully automatically, only register steps and expected results)
 manual: true
 tag:
   - manual

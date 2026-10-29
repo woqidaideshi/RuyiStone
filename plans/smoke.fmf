@@ -1,4 +1,4 @@
-summary: openRuyi 冒烟测试（P0，tier 0）
+summary: openRuyi smoke tests (P0, tier 0)
 environment-file:
   - topology.env
 

@@ -1,4 +1,4 @@
-summary: podman 容器导入与运行
+summary: podman container import and run
 test: ./test.sh
 require:
   - podman

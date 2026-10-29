@@ -2,30 +2,30 @@
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 rlJournalStart
-    # SSH 测试目标：未配置 SSH_TEST_HOST 时默认本机 localhost
+    # SSH test target: default to localhost when SSH_TEST_HOST is not set
     ssh_host="${SSH_TEST_HOST:-localhost}"
 
-    rlPhaseStartTest "sshd 服务运行"
-        rlRun "systemctl is-active sshd" 0 "测试 sshd 运行"
+    rlPhaseStartTest "sshd running"
+        rlRun "systemctl is-active sshd" 0 "check sshd is running"
     rlPhaseEnd
 
-    rlPhaseStartTest "root 不支持 ssh 登录"
+    rlPhaseStartTest "root ssh login denied"
         perm_root="$(sshd -T 2>/dev/null | grep -i '^permitrootlogin ' | awk '{print $2}')"
         if [ -n "$perm_root" ]; then
-            rlRun "echo \"$perm_root\" | grep -qiE 'no|prohibit-password'" 0 "sshd PermitRootLogin=${perm_root}（应禁止 root 登录）"
+            rlRun "echo \"$perm_root\" | grep -qiE 'no|prohibit-password'" 0 "sshd PermitRootLogin=${perm_root} (root login should be disabled)"
         else
-            rlLogWarning "无法获取 sshd PermitRootLogin 配置，跳过配置检查"
+            rlLogWarning "cannot get sshd PermitRootLogin config, skip config check"
         fi
-        rlRun "ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectTimeout=10 root@${ssh_host} 'uname -a'" 255 "测试 root 登录被拒绝"
+        rlRun "ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectTimeout=10 root@${ssh_host} 'uname -a'" 255 "check root login is rejected"
     rlPhaseEnd
 
-    rlPhaseStartTest "配置用户可 ssh 登录"
+    rlPhaseStartTest "user login via ssh"
         if [ -n "${SSH_TEST_PASSWORD:-}" ] && command -v sshpass >/dev/null 2>&1; then
-            rlRun "sshpass -p '${SSH_TEST_PASSWORD}' ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 ${SSH_TEST_USER:-openruyi}@${ssh_host} 'uname -a'" 0 "密码远程登录并执行 uname -a"
+            rlRun "sshpass -p '${SSH_TEST_PASSWORD}' ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 ${SSH_TEST_USER:-openruyi}@${ssh_host} 'uname -a'" 0 "log in with password and run uname -a"
         elif [ -n "${SSH_TEST_KEY:-}" ]; then
-            rlRun "ssh -i '${SSH_TEST_KEY}' -o StrictHostKeyChecking=no -o ConnectTimeout=10 ${SSH_TEST_USER:-openruyi}@${ssh_host} 'uname -a'" 0 "密钥远程登录"
+            rlRun "ssh -i '${SSH_TEST_KEY}' -o StrictHostKeyChecking=no -o ConnectTimeout=10 ${SSH_TEST_USER:-openruyi}@${ssh_host} 'uname -a'" 0 "log in with key"
         else
-            rlLogWarning "未配置 SSH_TEST_PASSWORD/SSH_TEST_KEY，跳过用户登录实测"
+            rlLogWarning "SSH_TEST_PASSWORD/SSH_TEST_KEY not set, skip user login test"
         fi
     rlPhaseEnd
 rlJournalEnd

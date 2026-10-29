@@ -1,15 +1,15 @@
-# 所有测试用例的公共元数据（子测试自动继承）
+# Common metadata for all tests (inherited by child tests)
 framework: beakerlib
 duration: 5m
 enabled: true
 contact: openRuyi QA Team <qa@openruyi.cn>
 
 # ------------------------------------------------------------
-# tag 词汇表（保持小而可复用，避免为单个用例发明新 tag）
-#   smoke            冒烟 / P0 用例（plans/smoke.fmf 过滤）
-#   feature          功能 / P1P2 用例（plans/feature.fmf 过滤）
-#   manual           手动用例（tests/manual/ 继承）
-#   pkg              软件包类测试（tests/smoke/base_pkgs 基础软件安装验证）
-#   requires-network 需要外网（如 git clone github / 下载外部镜像）
-# 分级另用 tier: 0/1/2 表示，不用 tag 区分。
+# Tag vocabulary (keep it small and reusable, avoid inventing new tags)
+#   smoke            smoke / P0 cases (filtered by plans/smoke.fmf)
+#   feature          feature / P1P2 cases (filtered by plans/feature.fmf)
+#   manual           manual cases (inherited by tests/manual/)
+#   pkg              package tests (tests/smoke/base_pkgs base package install check)
+#   requires-network needs internet (e.g. git clone github / download external images)
+# Tiers are expressed with tier: 0/1/2, not tags.
 # ------------------------------------------------------------

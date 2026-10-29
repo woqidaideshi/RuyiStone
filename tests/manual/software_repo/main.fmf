@@ -1,2 +1,2 @@
-summary: 修改软件源（手动）
+summary: modify software repository (manual)
 test: ./manual.md

@@ -1,4 +1,4 @@
-# 所有 plan 的公共设置（本节点不含 execute，仅作为继承节点，不会被识别为 plan）
+# Common settings for all plans (this node has no execute step and is only an inheritance node, so it is not recognized as a plan itself)
 provision:
   how: local
 

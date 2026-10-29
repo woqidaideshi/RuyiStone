@@ -3,18 +3,18 @@
 . "$(dirname "$0")/../../lib/common.sh"
 
 rlJournalStart
-    rlPhaseStartSetup "检查前置命令"
+    rlPhaseStartSetup "check prereqs"
         assertCmdExists timedatectl
     rlPhaseEnd
 
-    rlPhaseStartTest "时钟同步服务与系统时间"
-        rlRun "timedatectl" 0 "timedatectl 输出"
-        rlRun "timedatectl show -p NTPSynchronized" 0 "NTP 同步状态"
-        rlRun "timedatectl show -p NTPSynchronized | grep -q yes" 0 "测试 NTP 同步开启"
+    rlPhaseStartTest "ntp sync status"
+        rlRun "timedatectl" 0 "timedatectl output"
+        rlRun "timedatectl show -p NTPSynchronized" 0 "NTP sync status"
+        rlRun "timedatectl show -p NTPSynchronized | grep -q yes" 0 "check NTP sync is enabled"
     rlPhaseEnd
 
-    rlPhaseStartTest "系统时间与时区"
-        rlRun "date" 0 "date 输出"
-        rlRun "timedatectl show -p Timezone" 0 "时区信息"
+    rlPhaseStartTest "timezone info"
+        rlRun "date" 0 "date output"
+        rlRun "timedatectl show -p Timezone" 0 "timezone info"
     rlPhaseEnd
 rlJournalEnd

@@ -1,2 +1,2 @@
-summary: 时钟同步检查
+summary: clock sync check
 test: ./test.sh

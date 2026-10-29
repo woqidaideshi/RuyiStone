@@ -1,4 +1,4 @@
-summary: tmux 会话创建/列出/挂载
+summary: tmux session create/list/attach
 test: ./test.sh
 require:
   - tmux

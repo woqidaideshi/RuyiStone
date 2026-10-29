@@ -1,4 +1,4 @@
-# 功能测试公共元数据（P1/P2，tier 1，tag: feature，子用例自动继承）
+# Common metadata for functional tests (P1/P2, tier 1, tag: feature, inherited by children)
 tag:
   - feature
 tier: 1

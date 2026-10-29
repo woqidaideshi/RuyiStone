@@ -1,4 +1,4 @@
-summary: openRuyi 功能测试（P1/P2，tier 1）
+summary: openRuyi feature tests (P1/P2, tier 1)
 environment-file:
   - topology.env
 

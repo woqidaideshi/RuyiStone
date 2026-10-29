@@ -3,29 +3,29 @@
 . "$(dirname "$0")/../../lib/common.sh"
 
 rlJournalStart
-    rlPhaseStartSetup "检查前置命令并清理残留用户"
+    rlPhaseStartSetup "check prereqs"
         assertCmdExists useradd
         assertCmdExists id
         assertCmdExists getent
         assertCmdExists groups
         assertCmdExists whoami
-        rlRun "userdel -r test 2>/dev/null || true" 0 "清理残留 test 用户"
+        rlRun "userdel -r test 2>/dev/null || true" 0 "remove leftover test user"
     rlPhaseEnd
 
-    rlPhaseStartTest "新增用户并加入 wheel 组"
+    rlPhaseStartTest "add user to wheel"
         rlRun "useradd -G wheel test" 0 "useradd -G wheel test"
-        rlRun "getent passwd test" 0 "测试用户存在于 passwd"
-        rlRun "id test | grep -q wheel" 0 "测试 test 用户属于 wheel"
-        rlRun "groups test | grep -q wheel" 0 "测试 groups 含 wheel"
+        rlRun "getent passwd test" 0 "check user exists in passwd"
+        rlRun "id test | grep -q wheel" 0 "check user test is in wheel"
+        rlRun "groups test | grep -q wheel" 0 "check groups contains wheel"
     rlPhaseEnd
 
-    rlPhaseStartTest "当前用户与组信息"
-        rlRun "id" 0 "当前用户 id"
-        rlRun "whoami" 0 "当前用户名"
-        rlRun "groups" 0 "当前用户组"
+    rlPhaseStartTest "user group info"
+        rlRun "id" 0 "current user id"
+        rlRun "whoami" 0 "current user name"
+        rlRun "groups" 0 "current user groups"
     rlPhaseEnd
 
     rlPhaseStartCleanup
-        rlRun "userdel -r test" 0 "清理 test 用户"
+        rlRun "userdel -r test" 0 "remove test user"
     rlPhaseEnd
 rlJournalEnd

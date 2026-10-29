@@ -89,13 +89,13 @@ tmt plans ls
 tmt lint
 
 # 运行冒烟测试（P0）
-tmt --allow-unsafe-behavior=provision/local run plan --name /plans/smoke
+tmt --feeling-safe run --all --verbose plan --name /plans/smoke
 
 # 运行功能测试（P1/P2）
-tmt --allow-unsafe-behavior=provision/local run plan --name /plans/feature
+tmt --feeling-safe run --all --verbose plan --name /plans/feature
 
 # 只跑单个测试
-tmt --allow-unsafe-behavior=provision/local run test --name /tests/smoke/system_info
+tmt --feeling-safe run --all --verbose test --name /tests/smoke/system_info
 ```
 
 > 本地运行（`provision: how: local`）会直接在设备上执行，需 root 或免密 sudo。更安全的做法是改用 `provision --how container` 或 `--how virtual`。

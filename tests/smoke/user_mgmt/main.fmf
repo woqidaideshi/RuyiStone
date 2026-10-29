@@ -1,2 +1,2 @@
-summary: 用户管理（新增用户并加入 wheel）
+summary: user management (add user and join wheel)
 test: ./test.sh

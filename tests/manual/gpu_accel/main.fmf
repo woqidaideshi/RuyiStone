@@ -1,2 +1,2 @@
-summary: GPU 加速验证（手动）
+summary: GPU acceleration check (manual)
 test: ./manual.md

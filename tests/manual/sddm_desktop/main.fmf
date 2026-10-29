@@ -1,2 +1,2 @@
-summary: sddm 桌面（手动）
+summary: sddm desktop (manual)
 test: ./manual.md

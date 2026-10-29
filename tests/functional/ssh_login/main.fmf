@@ -1,4 +1,4 @@
-summary: ssh 远程登录（openruyi 用户）
+summary: ssh remote login (normal user)
 test: ./test.sh
 require:
   - openssh-clients
