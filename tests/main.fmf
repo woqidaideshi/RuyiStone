@@ -7,7 +7,12 @@ contact: openRuyi QA Team <qa@openruyi.cn>
 # ------------------------------------------------------------
 # Tag vocabulary (keep it small and reusable, avoid inventing new tags)
 #   smoke            smoke / P0 cases (filtered by plans/smoke.fmf)
-#   feature          feature / P1P2 cases (filtered by plans/feature.fmf)
+#   functional       functional / P1P2 cases (filtered by plans/functional.fmf)
+#   security         security tests (CVE / nmap / openscap)
+#   compatibility    compatibility tests (LTP POSIX)
+#   performance      performance tests (unixbench / stream / sysbench ...)
+#   reliability      reliability tests (trinity / stress-ng)
+#   feature          feature tests (TR-010)
 #   manual           manual cases (inherited by tests/manual/)
 #   pkg              package tests (tests/smoke/base_pkgs base package install check)
 #   requires-network needs internet (e.g. git clone github / download external images)

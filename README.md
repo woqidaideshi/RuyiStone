@@ -11,16 +11,27 @@ openruyi-autotest-final/
 ├── plans/
 │   ├── main.fmf                 # 公共 plan 设置（provision/report，继承节点）
 │   ├── smoke.fmf                # P0 冒烟测试（tag:smoke, tier 0）
-│   └── feature.fmf              # P1/P2 功能测试（tag:feature, tier 1）
+│   ├── functional.fmf           # P1/P2 功能测试（tag:functional, tier 1）
+│   └── feature.fmf              # 特性测试（tag:feature, tier 1，TR-010）
 └── tests/
     ├── main.fmf                 # 公共测试元数据（framework: beakerlib）
     ├── lib/common.sh            # 唯一的共享库（收敛了原来 174 个重复 lib.sh）
     ├── smoke/                   # P0 冒烟测试（tag: smoke, tier 0）
     │   ├── main.fmf             # 公共 tag/tier（子用例继承）
     │   └── system_info/ base_pkgs/ clock_sync/ disk_expand/ user_mgmt/
-    ├── functional/              # P1/P2 功能测试（tag: feature, tier 1）
+    ├── functional/              # P1/P2 功能测试（tag: functional, tier 1）
     │   ├── main.fmf
-    │   └── tmux/ ssh_login/ toolchain_build/ podman/ linux_lts/
+    │   ├── pkgs/                # 包级测试：一包一目录，目录名=包名
+    │   │   ├── main.fmf
+    │   │   └── tmux/ podman/ linux-lts/
+    │   └── scenario/            # 跨包场景测试（ssh 登录 / 工具链构建）
+    │       ├── main.fmf
+    │       └── ssh_login/ toolchain_build/
+    ├── security/                # 安全测试（tag: security, tier 1，TR-006，空骨架）
+    ├── compatibility/           # 兼容性测试（tag: compatibility, tier 2，TR-007，空骨架）
+    ├── performance/             # 性能测试（tag: performance, tier 2，TR-008，空骨架）
+    ├── reliability/             # 可靠性测试（tag: reliability, tier 2，TR-009，空骨架）
+    ├── feature/                 # 特性测试（tag: feature, tier 1，TR-010，空骨架）
     └── manual/<7 个手动用例>/     # manual: true + manual.md
 ```
 
@@ -29,11 +40,11 @@ openruyi-autotest-final/
 | 特性 | 位置 | 说明 |
 |------|------|------|
 | `framework: beakerlib` | `tests/main.fmf` | tmt 自动安装 beakerlib、按 `TestResults` 解析结果 |
-| 元数据继承 | `tests/main.fmf`、`tests/smoke/main.fmf`、`tests/functional/main.fmf`、`tests/manual/main.fmf` | 公共 `framework/duration/contact` 与 `tag/tier` 下推子节点 |
-| `require` 自动装依赖 | `tests/smoke/{system_info,disk_expand}`、`tests/functional/{ssh_login,tmux,podman,linux_lts,toolchain_build}` | 前置包由 tmt prepare 阶段自动安装 |
+| 元数据继承 | `tests/main.fmf`、`tests/smoke/main.fmf`、`tests/functional/main.fmf`、`tests/functional/pkgs/main.fmf`、`tests/functional/scenario/main.fmf`、`tests/manual/main.fmf` | 公共 `framework/duration/contact` 与 `tag/tier` 下推子节点 |
+| `require` 自动装依赖 | `tests/smoke/{system_info,disk_expand}`、`tests/functional/pkgs/{tmux,podman,linux-lts}`、`tests/functional/scenario/{ssh_login,toolchain_build}` | 前置包由 tmt prepare 阶段自动安装 |
 | 安装日志告警检查 | `tests/lib/common.sh`（`assertDnfInstall`，`tests/smoke/base_pkgs` 用） | dnf 安装时检查 warning/error，有则提醒/报错，日志存 `TMT_TEST_DATA` |
-| `prepare: how: install` | `plans/smoke.fmf`、`plans/feature.fmf` | plan 级统一安装依赖 |
-| `adjust` 条件调整 | `tests/functional/toolchain_build/main.fmf` | RISC-V 上自动延长 `duration` |
+| `prepare: how: install` | `plans/smoke.fmf`、`plans/functional.fmf` | plan 级统一安装依赖 |
+| `adjust` 条件调整 | `tests/functional/scenario/toolchain_build/main.fmf` | RISC-V 上自动延长 `duration` |
 | `environment-file` / `environment` | `plans/*.fmf` + `topology.env` | 注入 RVA 变体、ssh、OCI 镜像等参数 |
 | `manual: true` | `tests/manual/` | 不可自动化条目用 Markdown 登记步骤与预期 |
 | `tier` / `tag` / `duration` | 各测试 | 分级、过滤、超时控制 |
@@ -46,10 +57,15 @@ openruyi-autotest-final/
 | tag | 含义 | 用于 |
 |-----|------|------|
 | `smoke` | 冒烟 / P0 | `plans/smoke.fmf` 过滤 |
-| `feature` | 功能 / P1P2 | `plans/feature.fmf` 过滤 |
+| `functional` | 功能 / P1P2 | `plans/functional.fmf` 过滤 |
+| `security` | 安全测试 | `tests/security/`（TR-006） |
+| `compatibility` | 兼容性测试 | `tests/compatibility/`（TR-007） |
+| `performance` | 性能测试 | `tests/performance/`（TR-008） |
+| `reliability` | 可靠性测试 | `tests/reliability/`（TR-009） |
+| `feature` | 特性测试 | `plans/feature.fmf` 过滤（TR-010） |
 | `manual` | 手动用例 | `tests/manual/` |
 | `pkg` | 软件包类测试 | `tests/smoke/base_pkgs`（基础软件安装验证） |
-| `requires-network` | 需要外网（如 git clone github） | `tests/functional/toolchain_build` |
+| `requires-network` | 需要外网（如 git clone github） | `tests/functional/scenario/toolchain_build` |
 
 ## 需求映射（《测试手册》17 项）
 
@@ -62,15 +78,15 @@ openruyi-autotest-final/
 | 5 | 时钟同步 | ✅ | `/tests/smoke/clock_sync` | smoke / 0 |
 | 6 | 扩容检查 | ✅ | `/tests/smoke/disk_expand` | smoke / 0 |
 | 7 | 用户管理 | ✅ | `/tests/smoke/user_mgmt` | smoke / 0 |
-| 8 | tmux 使用 | ✅ | `/tests/functional/tmux` | feature / 1 |
-| 9 | ssh 远程登录 | ⚠️ 部分 | `/tests/functional/ssh_login` | feature / 1 |
-| 10 | gcc/llvm 构建 ruapu | ✅ | `/tests/functional/toolchain_build` | feature + requires-network / 1 |
-| 11 | podman 容器 | ⚠️ 部分 | `/tests/functional/podman` | feature / 1 |
+| 8 | tmux 使用 | ✅ | `/tests/functional/pkgs/tmux` | functional / 1 |
+| 9 | ssh 远程登录 | ⚠️ 部分 | `/tests/functional/scenario/ssh_login` | functional / 1 |
+| 10 | gcc/llvm 构建 ruapu | ✅ | `/tests/functional/scenario/toolchain_build` | functional + requires-network / 1 |
+| 11 | podman 容器 | ⚠️ 部分 | `/tests/functional/pkgs/podman` | functional / 1 |
 | 12 | weston 桌面 | ❌ 手动 | `/tests/manual/weston_desktop` | manual |
 | 13 | labwc 桌面 | ❌ 手动 | `/tests/manual/labwc_desktop` | manual |
 | 14 | sddm 桌面 | ❌ 手动 | `/tests/manual/sddm_desktop` | manual |
 | 15 | GPU 加速验证 | ❌ 手动 | `/tests/manual/gpu_accel` | manual |
-| 16 | linux-lts 内核切换 | ⚠️ 部分 | `/tests/functional/linux_lts`（require 安装 + 启动项，重启选内核需手动） | feature / 1 |
+| 16 | linux-lts 内核切换 | ⚠️ 部分 | `/tests/functional/pkgs/linux-lts`（require 安装 + 启动项，重启选内核需手动） | functional / 1 |
 | 17 | user-data 测试 | ❌ 手动 | `/tests/manual/user_data` | manual |
 
 > ✅ 全自动；⚠️ 部分自动（依赖外部条件，未配置时优雅跳过）；❌ 需人工/图形环境，登记为手动用例。
@@ -92,10 +108,10 @@ tmt lint
 tmt --feeling-safe run --all --verbose plan --name /plans/smoke
 
 # 运行功能测试（P1/P2）
-tmt --feeling-safe run --all --verbose plan --name /plans/feature
+tmt --feeling-safe run --all --verbose plan --name /plans/functional
 
 # 只跑单个测试
-tmt --feeling-safe run --all --verbose  plan --name /plans/feature test --name /tests/smoke/system_info
+tmt --feeling-safe run --all --verbose plan --name /plans/functional test --name /tests/functional/pkgs/tmux
 ```
 
 > 本地运行（`provision: how: local`）会直接在设备上执行，需 root 或免密 sudo。更安全的做法是改用 `provision --how container` 或 `--how virtual`。

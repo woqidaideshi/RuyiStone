@@ -1,0 +1,5 @@
+# Reliability tests (trinity / stress-ng) - TR-009
+# Empty placeholder: add test case directories here
+tag:
+  - reliability
+tier: 2

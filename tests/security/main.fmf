@@ -1,0 +1,5 @@
+# Security tests (CVE / nmap / openscap) - TR-006
+# Empty placeholder: add test case directories here
+tag:
+  - security
+tier: 1

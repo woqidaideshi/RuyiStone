@@ -1,0 +1,5 @@
+# Performance tests (unixbench / mmtests / iozone / fio / stream / lmbench / sysbench) - TR-008
+# Empty placeholder: add test case directories here
+tag:
+  - performance
+tier: 2

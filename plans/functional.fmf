@@ -1,0 +1,18 @@
+summary: openRuyi functional tests (P1/P2, tier 1)
+environment-file:
+  - topology.env
+
+discover:
+  how: fmf
+  filter: "tag:functional"
+
+prepare:
+  - how: shell
+    script: dnf clean all && dnf makecache
+  - how: install
+    package:
+      - beakerlib
+      - git
+
+execute:
+  how: tmt

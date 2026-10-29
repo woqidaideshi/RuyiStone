@@ -1,0 +1,2 @@
+# Cross-package scenario tests (ssh_login / toolchain_build)
+# Inherits tag: functional and tier: 1 from tests/functional/main.fmf

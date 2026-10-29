@@ -1,0 +1,5 @@
+# Compatibility tests (LTP POSIX) - TR-007
+# Empty placeholder: add test case directories here
+tag:
+  - compatibility
+tier: 2

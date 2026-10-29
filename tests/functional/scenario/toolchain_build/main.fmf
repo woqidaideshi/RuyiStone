@@ -1,6 +1,7 @@
 summary: build and run ruapu with gcc/g++/clang
 test: ./test.sh
 tag:
+  - functional
   - requires-network
 require:
   - gcc

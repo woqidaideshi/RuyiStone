@@ -1,4 +1,4 @@
-# Common metadata for functional tests (P1/P2, tier 1, tag: feature, inherited by children)
+# Common metadata for functional tests (P1/P2, tier 1, tag: functional, inherited by children)
 tag:
-  - feature
+  - functional
 tier: 1

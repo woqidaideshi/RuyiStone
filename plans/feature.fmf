@@ -1,4 +1,4 @@
-summary: openRuyi feature tests (P1/P2, tier 1)
+summary: openRuyi feature tests (TR-010, tier 1)
 environment-file:
   - topology.env
 
@@ -7,12 +7,9 @@ discover:
   filter: "tag:feature"
 
 prepare:
-  - how: shell
-    script: dnf clean all && dnf makecache
   - how: install
     package:
       - beakerlib
-      - git
 
 execute:
   how: tmt

@@ -1,0 +1,2 @@
+# RPM package functional tests (tmux / ssh / toolchain / podman / linux-lts)
+# Inherits tag: functional and tier: 1 from tests/functional/main.fmf
